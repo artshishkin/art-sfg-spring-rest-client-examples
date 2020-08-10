@@ -10,6 +10,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
@@ -265,7 +266,7 @@ class RestTemplateExamplesTest {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
-        int TIMEOUT = 500;
+        int TIMEOUT = 1000;
         requestFactory.setConnectTimeout(TIMEOUT);
         requestFactory.setReadTimeout(TIMEOUT);
         restTemplate.setRequestFactory(requestFactory);
@@ -302,5 +303,38 @@ class RestTemplateExamplesTest {
                 .isNotEmpty()
                 .contains("Nazar", "Shyshkin", "lastname", "firstname")
                 .doesNotContain("/shop/customers/", "Art", "customer_url");
+    }
+
+    @Test
+    void deleteCustomer() {
+        //given
+        String customerJson = "{\"firstname\": \"Art\",\"lastname\": \"Shyshkin\"}";
+        String url = fromHttpUrl(BASE_URL).path("/customers/").toUriString();
+        ResponseEntity<JsonNode> responseEntity = restTemplate.postForEntity(url, customerJson, JsonNode.class);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(CREATED);
+        JsonNode savedCustomerNode = responseEntity.getBody();
+        assertThat(savedCustomerNode).isNotNull();
+        assertAll(
+                () -> assertThat(savedCustomerNode.get("firstname").asText()).isEqualTo("Art"),
+                () -> assertThat(savedCustomerNode.get("lastname").asText()).isEqualTo("Shyshkin"),
+                () -> assertThat(savedCustomerNode.get("customer_url").asText()).startsWith("/shop/customers/")
+        );
+
+        System.out.println("----------------");
+        System.out.println("----------------");
+        System.out.println("----------------");
+        System.out.println("----------------");
+        //when update customer by id
+        String customerUrl = savedCustomerNode.get("customer_url").asText();
+
+        url = fromHttpUrl(BASE_URL).replacePath(customerUrl).toUriString();
+
+        restTemplate.delete(url);
+
+        //then
+        String finalUrl = url;
+        assertThrows(HttpClientErrorException.class, () -> {
+            ResponseEntity<String> responseEntityGet = restTemplate.getForEntity(finalUrl, String.class);
+        });
     }
 }
