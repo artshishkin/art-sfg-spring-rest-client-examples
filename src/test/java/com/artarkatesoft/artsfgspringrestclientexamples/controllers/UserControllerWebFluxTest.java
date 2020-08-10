@@ -1,7 +1,7 @@
 package com.artarkatesoft.artsfgspringrestclientexamples.controllers;
 
 import com.artarkatesoft.api.domain.UserData;
-import com.artarkatesoft.artsfgspringrestclientexamples.ApiService;
+import com.artarkatesoft.artsfgspringrestclientexamples.services.ApiService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

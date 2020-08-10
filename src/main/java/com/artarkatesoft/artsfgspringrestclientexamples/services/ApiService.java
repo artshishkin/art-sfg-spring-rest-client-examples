@@ -1,4 +1,4 @@
-package com.artarkatesoft.artsfgspringrestclientexamples;
+package com.artarkatesoft.artsfgspringrestclientexamples.services;
 
 import com.artarkatesoft.api.domain.User;
 

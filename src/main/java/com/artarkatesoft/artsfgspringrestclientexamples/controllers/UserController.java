@@ -1,6 +1,6 @@
 package com.artarkatesoft.artsfgspringrestclientexamples.controllers;
 
-import com.artarkatesoft.artsfgspringrestclientexamples.ApiService;
+import com.artarkatesoft.artsfgspringrestclientexamples.services.ApiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
