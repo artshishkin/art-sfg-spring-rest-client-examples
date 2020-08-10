@@ -1,5 +1,5 @@
 
-package com.artarkatesoft.artsfgspringrestclientexamples.domain;
+package com.artarkatesoft.api.domain;
 
 import java.io.Serializable;
 
