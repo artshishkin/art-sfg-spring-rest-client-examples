@@ -1,20 +1,56 @@
+
 package com.artarkatesoft.artsfgspringrestclientexamples.domain;
 
-import lombok.Data;
+import java.io.Serializable;
 
-@Data
-public class Login {
-//      "login": {
-//        "username": "devonte67",
-//        "password": "><'}$pwwuv",
-//        "md5": "a9b1643ad87da1cf6598a27c5bbd3ae1",
-//        "sha1": "42f2cc46f189cb35c600d4a788a050d0ee27d623",
-//        "sha256": "9f5a440f116de4b9e54ac378ba96b98f126cf0a3ec6c76d0e01cfefd8b75fcab"
-//      },
+public class Login implements Serializable
+{
 
     private String username;
     private String password;
     private String md5;
     private String sha1;
     private String sha256;
+    private final static long serialVersionUID = 5096575104467681874L;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getMd5() {
+        return md5;
+    }
+
+    public void setMd5(String md5) {
+        this.md5 = md5;
+    }
+
+    public String getSha1() {
+        return sha1;
+    }
+
+    public void setSha1(String sha1) {
+        this.sha1 = sha1;
+    }
+
+    public String getSha256() {
+        return sha256;
+    }
+
+    public void setSha256(String sha256) {
+        this.sha256 = sha256;
+    }
+
 }

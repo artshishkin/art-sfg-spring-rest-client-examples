@@ -1,16 +1,38 @@
+
 package com.artarkatesoft.artsfgspringrestclientexamples.domain;
 
-import lombok.Data;
+import java.io.Serializable;
 
-@Data
-public class ExpirationDate {
-//          "expiration_date": {
-//            "date": "2016-09-29 01:39:53.000000",
-//            "timezone_type": 3,
-//            "timezone": "UTC"
-//          },
+public class ExpirationDate implements Serializable
+{
 
     private String date;
-    private Integer timezone_type;
+    private Integer timezoneType;
     private String timezone;
+    private final static long serialVersionUID = 2549450060707957210L;
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public Integer getTimezoneType() {
+        return timezoneType;
+    }
+
+    public void setTimezoneType(Integer timezoneType) {
+        this.timezoneType = timezoneType;
+    }
+
+    public String getTimezone() {
+        return timezone;
+    }
+
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
+    }
+
 }
