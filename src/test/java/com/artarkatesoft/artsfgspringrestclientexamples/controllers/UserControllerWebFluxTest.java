@@ -11,13 +11,12 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.codec.json.Jackson2JsonDecoder;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
@@ -44,7 +43,7 @@ class UserControllerWebFluxTest {
     }
 
     @Test
-    void testPost() throws IOException {
+    void testPost_withMapperFromJackson2JsonDecoder() throws IOException {
         //given
         Integer limit = 3;
         Resource resource = new ClassPathResource("/three_persons.json");
@@ -56,19 +55,20 @@ class UserControllerWebFluxTest {
         UserData userData = objectMapper.readValue(resource.getFile(), UserData.class);
         given(apiService.getUsers(any())).willReturn(userData.getData());
 
-        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
-        formData.add("limit", "3");
-
-
         //when
         webTestClient.post().uri("/users")
                 .body(BodyInserters.fromFormData("limit", limit.toString()))
-//                .body(BodyInserters.fromFormData(formData))
                 .exchange()
                 //then
                 .expectStatus().isOk()
                 .expectBody(String.class)
-                .value(content -> assertThat(content).contains("<h1>User Information</h1>"));
+                .value(content -> assertAll(
+                        () -> assertThat(content).contains("<h1>User Information</h1>"),
+                        () -> assertThat(content).contains("<td>Molly</td>"),
+                        () -> assertThat(content).contains("Molly 2"),
+                        () -> assertThat(content).contains("Molly 3"),
+                        () -> assertThat(content).contains("2016-09-29 01:39:53.000000")
+                ));
         then(apiService).should().getUsers(eq(limit));
     }
 }

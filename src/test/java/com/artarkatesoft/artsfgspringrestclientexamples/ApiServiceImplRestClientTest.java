@@ -43,6 +43,7 @@ class ApiServiceImplRestClientTest {
         assertThat(users).hasSize(1);
         User actualUser = users.get(0);
         assertThat(actualUser).hasFieldOrPropertyWithValue("gender", "female");
+        assertThat(actualUser.getBilling().getCard().getExpirationDate()).isNotNull();
         log.info("User is " + actualUser);
         mockServer.verify();
     }

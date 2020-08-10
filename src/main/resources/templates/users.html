@@ -29,6 +29,7 @@
                     <th> email</th>
                     <th> language</th>
                     <th> phone</th>
+                    <th>card exp. date</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -40,6 +41,7 @@
                     <td th:text="${user.email}"> email</td>
                     <td th:text="${user.language}"> language</td>
                     <td th:text="${user.phone}"> phone</td>
+                    <td th:text="${user.billing.card.expirationDate?.date}"> phone</td>
                 </tr>
                 </tbody>
             </table>
