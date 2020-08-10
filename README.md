@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/artshishkin/art-sfg-spring-rest-client-examples.svg?style=svg)](https://circleci.com/gh/artshishkin/art-sfg-spring-rest-client-examples)
+
 # art-sfg-spring-rest-client-examples
 Section 23 of SFG Tutorial on Spring 5 - Introduction to RESTFul Web Services
 
