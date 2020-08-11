@@ -1,5 +1,6 @@
 package com.artarkatesoft.artsfgspringrestclientexamples.controllers;
 
+import com.artarkatesoft.api.domain.User;
 import com.artarkatesoft.artsfgspringrestclientexamples.services.ApiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Slf4j
@@ -27,5 +29,16 @@ public class UserController {
         return limitMono.map(apiService::getUsers)
                 .doOnNext(users -> model.addAttribute("users", users))
                 .then(Mono.just("users"));
+    }
+
+    @PostMapping("reactive")
+    public Mono<String> getAllUsersReactive(Model model, ServerWebExchange serverWebExchange) {
+        Mono<Integer> limitMono = serverWebExchange.getFormData()
+                .map(multiValueMap -> multiValueMap.getFirst("limit"))
+                .map(Integer::valueOf);
+        Flux<User> userFlux = apiService.getUsers(limitMono);
+        model.addAttribute("users", userFlux);
+
+        return Mono.just("users");
     }
 }

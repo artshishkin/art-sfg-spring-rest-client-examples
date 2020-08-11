@@ -19,7 +19,21 @@
     </div>
     <div class="row">
         <div class="col-md-6 offset-md-3">
+            <p>Classic</p>
             <form action="#" th:action="@{/users}" method="post">
+                <div class="row">
+                    <input type="text" value="1" th:name="limit">
+                </div>
+                <div class="row">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <p>Reactive</p>
+            <form action="#" th:action="@{/users/reactive}" method="post">
                 <div class="row">
                     <input type="text" value="1" th:name="limit">
                 </div>
