@@ -22,7 +22,7 @@ public class ApiServiceImpl implements ApiService {
     public ApiServiceImpl(RestTemplate restTemplate, @Value("${api.url}") String apiUrl) {
         this.restTemplate = restTemplate;
         this.apiUrl = apiUrl;
-        webClient = WebClient.builder().baseUrl(this.apiUrl).build();
+        webClient = WebClient.create(this.apiUrl);
     }
 
     @Override
@@ -36,12 +36,11 @@ public class ApiServiceImpl implements ApiService {
     @Override
     public Flux<User> getUsers(Mono<Integer> limitMono) {
         return limitMono
-                .log(" --- -getUsers ------------------ ")
-                .flatMap(limit -> WebClient.create(UriComponentsBuilder.fromHttpUrl(apiUrl).queryParam("limit", limit).toUriString()).get()
+                .log(" ----getUsers ------limitMono------------ ")
+                .flatMap(limit -> webClient.get().uri(uriBuilder -> uriBuilder.queryParam("limit", limit).build())
                         .retrieve()
                         .bodyToMono(UserData.class))
-                .log(" --- -getUsers -------UserData----------- ")
-                .doOnError(ex -> ex.printStackTrace())
+                .log(" ----getUsers -------UserData----------- ")
                 .flatMapMany(userData -> Flux.fromIterable(userData.getData()));
     }
 }
